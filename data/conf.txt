@@ -1,0 +1,12 @@
+receptor = receptor.pdbqt
+ligand = ligand.pdbqt
+
+center_x =  2
+center_y =  6
+center_z = -7
+
+size_x = 25
+size_y = 25
+size_z = 25
+
+num_modes = 1
