@@ -10,6 +10,7 @@ File to run vina docking on all mol2s in a directory
 import sys
 import subprocess
 import os 
+import argparse
 
 
 
@@ -32,7 +33,9 @@ def main(args):
     subprocess.call(['pythonsh', 'prepare_receptor4.py', '-r {args.receptor_file}', '-A hydrogens'])
     
     # Iterate on molecules
-    for file in os.listdir(args.mols_dir):
+    mols_list = os.listdir(args.mols_dir)
+    mols_list=mols_list[:10]
+    for file in mols_list:
         # ligand to pdbqt 
         subprocess.call(['pythonsh', 'prepare_ligand4.py', '-l {file}', '-A hydrogens'])
         
