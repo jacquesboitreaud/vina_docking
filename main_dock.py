@@ -37,10 +37,10 @@ def main(args):
     mols_list=mols_list[:10]
     for file in mols_list:
         # ligand to pdbqt 
-        subprocess.call(['pythonsh', 'prepare_ligand4.py', '-l {file}', '-A hydrogens'])
+        subprocess.run('pythonsh prepare_ligand4.py -l {file} -A hydrogens')
         
     # RUN DOCKING 
-    subprocess.call(['vina' '--config data/conf.txt' '--exhaustiveness {args.ex}'])
+    subprocess.call(['vina','--config data/conf.txt','--exhaustiveness {args.ex}'])
     
     
 if(__name__=='__main__'):
