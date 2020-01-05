@@ -30,7 +30,7 @@ def main(args):
     # Run the docking process with the args provided
     
     # target to pdbqt 
-    subprocess.call(['pythonsh', 'prepare_receptor4.py', '-r {args.receptor_file}', '-A hydrogens'])
+    subprocess.run('pythonsh prepare_receptor4.py -r {args.receptor_file} -A hydrogens')
     
     # Iterate on molecules
     mols_list = os.listdir(args.mols_dir)
