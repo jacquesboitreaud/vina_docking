@@ -5,6 +5,8 @@ Created on Sun Jan  5 21:19:35 2020
 @author: jacqu
 
 File to run vina docking on all mol2s in a directory 
+
+TODO : trouver comment on run une commande avec subprocess 
 """
 
 import sys
@@ -30,7 +32,7 @@ def main(args):
     # Run the docking process with the args provided
     
     # target to pdbqt 
-    subprocess.run('pythonsh prepare_receptor4.py -r {args.receptor_file} -A hydrogens')
+    p=subprocess.run(['pythonsh', 'prepare_receptor4.py', '-r {args.receptor_file} -A hydrogens'])
     
     # Iterate on molecules
     mols_list = os.listdir(args.mols_dir)
