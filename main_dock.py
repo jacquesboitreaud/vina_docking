@@ -39,7 +39,7 @@ def main(args):
     mols_list=mols_list[:10]
     for file in mols_list:
         # ligand to pdbqt 
-        subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_ligand4.py', f'-l /home/mcb/users/jboitr/vina_docking/data/{file} -A hydrogens'])
+        subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_ligand4.py', f'-l /home/mcb/users/jboitr/vina_docking/data/split/{file} -A hydrogens'])
         
     # RUN DOCKING 
     subprocess.run(['/home/mcb/users/jboitr/local/autodock_vina_1_1_2_linux_x86/bin/vina','--config', '/home/mcb/users/jboitr/vina_docking/data/conf.txt','--exhaustiveness', f'{args.ex}'])
