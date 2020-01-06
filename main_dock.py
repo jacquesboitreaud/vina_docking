@@ -32,17 +32,17 @@ def main(args):
     # Run the docking process with the args provided
     
     # target to pdbqt 
-    p=subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_receptor4.py', f'-r data/{args.receptor_file} -A hydrogens'])
+    p=subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_receptor4.py', f'-r /home/mcb/users/jboitr/vina_docking/data/{args.receptor_file} -A hydrogens'])
     
     # Iterate on molecules
     mols_list = os.listdir(args.mols_dir)
     mols_list=mols_list[:10]
     for file in mols_list:
         # ligand to pdbqt 
-        subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_ligand4.py', f'-l data/{file} -A hydrogens'])
+        subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_ligand4.py', f'-l /home/mcb/users/jboitr/vina_docking/data/{file} -A hydrogens'])
         
     # RUN DOCKING 
-    subprocess.run(['/home/mcb/users/jboitr/local/autodock_vina_1_1_2_linux_x86/bin/vina','--config', 'data/conf.txt','--exhaustiveness', f'{args.ex}'])
+    subprocess.run(['/home/mcb/users/jboitr/local/autodock_vina_1_1_2_linux_x86/bin/vina','--config', '/home/mcb/users/jboitr/vina_docking/data/conf.txt','--exhaustiveness', f'{args.ex}'])
     
     
 if(__name__=='__main__'):
