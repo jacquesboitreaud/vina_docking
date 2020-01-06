@@ -22,7 +22,7 @@ def cline():
     parser = argparse.ArgumentParser()
     
     parser.add_argument("-d", "--mols_dir", default='data/split', help="directory with mol2 files")
-    parser.add_argument("-r", "--receptor_file", default='data/receptor.pdb', help="path to receptor pdb")
+    parser.add_argument("-r", "--receptor_file", default='receptor.pdb', help="path to receptor pdb")
     parser.add_argument("-e", "--ex", default=8, help="exhaustiveness parameter for vina")
     args = parser.parse_args()
     
