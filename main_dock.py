@@ -32,17 +32,17 @@ def main(args):
     # Run the docking process with the args provided
     
     # target to pdbqt 
-    p=subprocess.run(['pythonsh', 'prepare_receptor4.py', '-r {args.receptor_file} -A hydrogens'])
+    p=subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_receptor4.py', '-r {args.receptor_file} -A hydrogens'])
     
     # Iterate on molecules
     mols_list = os.listdir(args.mols_dir)
     mols_list=mols_list[:10]
     for file in mols_list:
         # ligand to pdbqt 
-        subprocess.run('pythonsh prepare_ligand4.py -l {file} -A hydrogens')
+        subprocess.run('/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh prepare_ligand4.py -l {file} -A hydrogens')
         
     # RUN DOCKING 
-    subprocess.call(['vina','--config data/conf.txt','--exhaustiveness {args.ex}'])
+    subprocess.run(['/home/mcb/users/jboitr/local/autodock_vina_1_1_2_linux_x86/bin/vina','--config data/conf.txt','--exhaustiveness {args.ex}'])
     
     
 if(__name__=='__main__'):
