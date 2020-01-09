@@ -37,7 +37,7 @@ def main(args):
     # Iterate on molecules
     scores, times = [], []
     mols_list = os.listdir(args.mols_dir)
-    mols_list=mols_list[:10]
+    mols_list=mols_list[:100] # Number of molecules to dock
     for file in mols_list:
         # ligand to pdbqt 
         subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_ligand4.py', f'-l /home/mcb/users/jboitr/vina_docking/data/split/{file}', '-o tmp/ligand.pdbqt', '-A hydrogens'])
