@@ -1,5 +1,5 @@
-receptor = receptor.pdbqt
-ligand = ligand.pdbqt
+receptor = tmp/receptor.pdbqt
+ligand = tmp/ligand.pdbqt
 
 center_x =  2
 center_y =  6
