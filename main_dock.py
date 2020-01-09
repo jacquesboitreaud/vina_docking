@@ -49,15 +49,15 @@ def main(args):
         print("Docking time :", end-start)
         times.append(end-start)
         
-        #TODO: reading output tmp/ligand_out.pdbqt
+        #reading output tmp/ligand_out.pdbqt
         with open('tmp/ligand_out.pdbqt','r') as f :
             lines = f.readlines()
             sline = lines[1]
             values = sline.split('      ')
             scores.append(float(values[1]))
             
-    np.save('out_scores.pickle',scores)
-    np.save('out_times.pickle',times)
+    np.save(f'out_scores_e{args.ex}.pickle',scores)
+    np.save(f'out_times_e{args.ex}.pickle',times)
     
 if(__name__=='__main__'):
     cline()
