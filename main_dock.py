@@ -31,8 +31,11 @@ def cline():
 def main(args):
     # Run the docking process with the args provided
     
+    #TODO : prepare PDB with pdbselect script (Guillaume)
+    
     # target to pdbqt 
-    p=subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_receptor4.py', f'-r /home/mcb/users/jboitr/vina_docking/data/{args.receptor_file} -A hydrogens'])
+    subprocess.run(['pdb_select.py',f'data/{args.receptor_file}', f'data/{args.receptor_file}'])
+    subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_receptor4.py', f'-r /home/mcb/users/jboitr/vina_docking/data/{args.receptor_file} -A hydrogens'])
     
     # Iterate on molecules
     mols_list = os.listdir(args.mols_dir)
