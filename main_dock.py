@@ -13,6 +13,7 @@ import sys
 import subprocess
 import os 
 import argparse
+from time import time
 
 
 
@@ -29,9 +30,7 @@ def cline():
     main(args)
     
 def main(args):
-    # Run the docking process with the args provided
-    
-    #TODO : prepare PDB with pdbselect script (Guillaume)
+    # Runs the docking process with the args provided
     
     # target to pdbqt 
     subprocess.run(['python3','pdb_select.py',f'data/{args.receptor_file}','! hydro', f'data/{args.receptor_file}'])
@@ -44,8 +43,13 @@ def main(args):
         # ligand to pdbqt 
         subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_ligand4.py', f'-l /home/mcb/users/jboitr/vina_docking/data/split/{file}', '-o tmp/ligand.pdbqt', '-A hydrogens'])
         
-    # RUN DOCKING 
-    subprocess.run(['/home/mcb/users/jboitr/local/autodock_vina_1_1_2_linux_x86/bin/vina','--config', '/home/mcb/users/jboitr/vina_docking/data/conf.txt','--exhaustiveness', f'{args.ex}'])
+        # RUN DOCKING 
+        start=time()
+        subprocess.run(['/home/mcb/users/jboitr/local/autodock_vina_1_1_2_linux_x86/bin/vina','--config', '/home/mcb/users/jboitr/vina_docking/data/conf.txt','--exhaustiveness', f'{args.ex}'])
+        end = time()
+        print("Docking time :", end-start)
+        
+        #TODO: reading output tmp/ligand_out.pdbqt
     
     
 if(__name__=='__main__'):
