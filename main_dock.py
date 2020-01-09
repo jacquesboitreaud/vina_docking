@@ -14,9 +14,7 @@ import subprocess
 import os 
 import argparse
 from time import time
-
-
-
+import numpy as np
   
 def cline():
     # Parses arguments and calls main function with these args
@@ -37,6 +35,7 @@ def main(args):
     subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_receptor4.py', f'-r /home/mcb/users/jboitr/vina_docking/data/{args.receptor_file}','-o tmp/receptor.pdbqt', '-A hydrogens'])
     
     # Iterate on molecules
+    scores, times = [], []
     mols_list = os.listdir(args.mols_dir)
     mols_list=mols_list[:10]
     for file in mols_list:
@@ -48,9 +47,17 @@ def main(args):
         subprocess.run(['/home/mcb/users/jboitr/local/autodock_vina_1_1_2_linux_x86/bin/vina','--config', '/home/mcb/users/jboitr/vina_docking/data/conf.txt','--exhaustiveness', f'{args.ex}'])
         end = time()
         print("Docking time :", end-start)
+        times.append(end-start)
         
         #TODO: reading output tmp/ligand_out.pdbqt
-    
+        with open('tmp/ligand_out.pdbqt','r') as f :
+            lines = f.readlines()
+            sline = lines[1]
+            values = sline.split('      ')
+            scores.append(float(values[1]))
+            
+    np.save('out_scores.pickle',scores)
+    np.save('out_times.pickle',times)
     
 if(__name__=='__main__'):
     cline()
