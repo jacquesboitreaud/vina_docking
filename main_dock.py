@@ -34,7 +34,7 @@ def main(args):
     #TODO : prepare PDB with pdbselect script (Guillaume)
     
     # target to pdbqt 
-    subprocess.run(['pdb_select.py',f'data/{args.receptor_file}', f'data/{args.receptor_file}'])
+    subprocess.run(['/home/mcb/users/jboitr/vina_docking/pdb_select.py',f'data/{args.receptor_file}', f'data/{args.receptor_file}'])
     subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_receptor4.py', f'-r /home/mcb/users/jboitr/vina_docking/data/{args.receptor_file} -A hydrogens'])
     
     # Iterate on molecules
