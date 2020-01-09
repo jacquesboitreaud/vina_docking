@@ -56,8 +56,8 @@ def main(args):
             values = sline.split('      ')
             scores.append(float(values[1]))
             
-    np.save(f'out_scores_e{args.ex}.pickle',scores)
-    np.save(f'out_times_e{args.ex}.pickle',times)
+    np.save(f'exp/out_scores_e{args.ex}',scores)
+    np.save(f'exp/out_times_e{args.ex}',times)
     
 if(__name__=='__main__'):
     cline()
