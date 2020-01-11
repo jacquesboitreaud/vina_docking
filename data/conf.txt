@@ -1,9 +1,9 @@
 receptor = tmp/receptor.pdbqt
 ligand = tmp/ligand.pdbqt
 
-center_x =  2
-center_y =  6
-center_z = -7
+center_x =  29
+center_y =  -0.5
+center_z = 23
 
 size_x = 25
 size_y = 25
