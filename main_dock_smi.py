@@ -84,8 +84,12 @@ def main(args):
         mols_df.loc[i,'score']=sc
         mols_df.loc[i,'time']=end-start
         
-        if(i%10==0): # checkpoint , save dataframe 
-            mols_df.to_csv(args.dataframe[:-4]+'scored.csv')
+        if(i%100==0): # checkpoint , save dataframe 
+            mols_df.to_csv(args.dataframe[:-4]+'_scored.csv')
+            
+    #final save 
+    print('Docking finished, saving to csv')        
+    mols_df.to_csv(args.dataframe[:-4]+'_scored.csv')
     
 if(__name__=='__main__'):
     cline()
