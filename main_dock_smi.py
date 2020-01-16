@@ -20,6 +20,7 @@ import argparse
 from time import time
 import numpy as np
 
+import openbabel
 import pybel 
 import pandas as pd
   
@@ -29,7 +30,7 @@ def cline():
     
     parser.add_argument("-df", "--dataframe", default='data/to_dock.csv', help="csv file with 'can' columns containing smiles")
     parser.add_argument("-r", "--receptor_file", default='data/receptor.pdb', help="path to receptor pdb")
-    parser.add_argument("-e", "--ex", default=8, help="exhaustiveness parameter for vina")
+    parser.add_argument("-e", "--ex", default=4, help="exhaustiveness parameter for vina")
     parser.add_argument("-o", "--output_suffix", default='', help="Suffix for output scores files")
     args = parser.parse_args()
     
@@ -77,7 +78,7 @@ def main(args):
             lines = f.readlines()
             sline = lines[1]
             values = sline.split()
-            sc=float(values[1])
+            sc=float(values[4])
             
         # Add to dataframe 
         mols_df.loc[i,'score']=sc
