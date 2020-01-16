@@ -79,12 +79,12 @@ def main(args):
             values = sline.split()
             sc=float(values[1])
             
-    # Add to dataframe 
-    mols_df.loc[i,'score']=sc
-    mols_df.loc[i,'time']=end-start
-    
-    if(i%100==0): # checkpoint , save dataframe 
-        mols_df.to_csv(args.dataframe+'_{args.output_suffix}')
+        # Add to dataframe 
+        mols_df.loc[i,'score']=sc
+        mols_df.loc[i,'time']=end-start
+        
+        if(i%10==0): # checkpoint , save dataframe 
+            mols_df.to_csv(args.dataframe+'_{args.output_suffix}')
     
 if(__name__=='__main__'):
     cline()
