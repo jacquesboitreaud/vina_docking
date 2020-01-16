@@ -78,6 +78,7 @@ def main(args):
             lines = f.readlines()
             sline = lines[1]
             values = sline.split()
+            print(values)
             sc=float(values[3])
             
         # Add to dataframe 
