@@ -29,7 +29,7 @@ def cline():
     parser = argparse.ArgumentParser()
     
     parser.add_argument("-df", "--dataframe", default='data/to_dock.csv', help="csv file with 'can' columns containing smiles")
-    parser.add_argument("-r", "--receptor_file", default='data/receptor.pdb', help="path to receptor pdb")
+    parser.add_argument("-r", "--receptor_file", default='data/receptors/receptor.pdb', help="path to receptor pdb")
     parser.add_argument("-e", "--ex", default=4, help="exhaustiveness parameter for vina")
     parser.add_argument("-o", "--output_suffix", default='', help="Suffix for output scores files")
     args = parser.parse_args()

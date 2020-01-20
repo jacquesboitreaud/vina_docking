@@ -14,13 +14,17 @@ import numpy as np
 import os 
 
 
-TARGET = 'esr1'
+tar = 'aa2ar'
+
+# If subsample, will select 100 random actives and 900 random decoys from DUDE.
+subsample = True 
+
 dud_repo = 'C:/Users/jacqu/Documents/mol2_resource/dud/all'
 os.chdir(dud_repo)
 
 
 for target_folder in os.listdir(dud_repo):
-    if(target_folder==TARGET):
+    if(target_folder==tar):
         smiles, active, decoy = [], [], []
         
         with open(f'{target_folder}/actives_final.ism', 'r') as f : 
@@ -51,4 +55,10 @@ df = pd.DataFrame.from_dict({'can':smiles, 'active':active, 'decoy':decoy})
 
 df['other']=0
 
-df.to_csv('C:/Users/jacqu/Documents/GitHub/vina_docking/esr1_dude.csv')
+rand_actives=df[df['active']==1].sample(100)
+rand_decoys = df[df['decoy']==1].sample(900)
+
+df = pd.concat([rand_actives,rand_decoys])
+df=df.reset_index(drop=True)
+
+df.to_csv(f'C:/Users/jacqu/Documents/GitHub/vina_docking/data/{tar}_dude.csv')
