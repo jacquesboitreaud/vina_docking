@@ -28,10 +28,9 @@ def cline():
     # Parses arguments and calls main function with these args
     parser = argparse.ArgumentParser()
     
+    parser.add_argument("-t", "--target", default='aa2ar', help="prefix of pdb receptor file. Located in data/receptors")
     parser.add_argument("-df", "--dataframe", default='data/to_dock.csv', help="csv file with 'can' columns containing smiles")
-    parser.add_argument("-r", "--receptor_file", default='data/receptors/receptor.pdb', help="path to receptor pdb")
-    parser.add_argument("-e", "--ex", default=4, help="exhaustiveness parameter for vina")
-    parser.add_argument("-o", "--output_suffix", default='', help="Suffix for output scores files")
+    parser.add_argument("-e", "--ex", default=4, help="exhaustiveness parameter for vina. Default to 4")
     args = parser.parse_args()
     
     main(args)
@@ -39,10 +38,12 @@ def cline():
 def main(args):
     # Runs the docking process with the args provided
     
+    receptor_filepath = f'data/receptors/{args.target}.pdb'
+    
     # target to pdbqt 
-    subprocess.run(['python3','pdb_select.py',f'{args.receptor_file}','! hydro', f'{args.receptor_file}'])
+    subprocess.run(['python3','pdb_select.py',f'{receptor_filepath}','! hydro', f'{receptor_filepath}'])
     subprocess.run(['/home/mcb/users/jboitr/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_receptor4.py',
-                    f'-r /home/mcb/users/jboitr/vina_docking/{args.receptor_file}','-o tmp/receptor.pdbqt', '-A hydrogens'])
+                    f'-r /home/mcb/users/jboitr/vina_docking/{receptor_filepath}','-o tmp/receptor.pdbqt', '-A hydrogens'])
     
     # Iterate on molecules
     mols_df = pd.read_csv(args.dataframe)
@@ -68,7 +69,7 @@ def main(args):
         # RUN DOCKING 
         start=time()
         subprocess.run(['/home/mcb/users/jboitr/local/autodock_vina_1_1_2_linux_x86/bin/vina',
-                        '--config', '/home/mcb/users/jboitr/vina_docking/data/conf.txt','--exhaustiveness', f'{args.ex}', 
+                        '--config', f'/home/mcb/users/jboitr/vina_docking/data/conf_{args.target}.txt','--exhaustiveness', f'{args.ex}', 
                         '--log', 'tmp/log.txt'])
         end = time()
         print("Docking time :", end-start)
