@@ -5,8 +5,8 @@ center_x =  -7.7
 center_y =  -8.4
 center_z = 52
 
-size_x = 25
-size_y = 25
-size_z = 25
+size_x = 37.4
+size_y = 37.4
+size_z = 39.9
 
 num_modes = 1
