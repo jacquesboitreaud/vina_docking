@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-df = pd.read_csv('../data/1k_sample_scored.csv')
+df = pd.read_csv('../data/aa2ar_dude_scored.csv')
 
 actives = df[df['active']==1]
 decoys = df[df['decoy']==1]
@@ -24,11 +24,12 @@ plt.figure()
 sns.distplot(actives['score'], label = 'actives', bins=20)
 sns.distplot(decoys['score'], label = 'decoys', bins=20)
 plt.xlabel('Energy (kcal/mol)')
+plt.xlim(-12,-4)
 plt.legend()
 plt.title(f'Distributions for sample with {na} actives and {nd} decoys')
 
 # Difference in means : 
-delta = np.mean(scores_a) - np.mean(scores_d)
+delta = np.mean(actives['score']) - np.mean(decoys['score'])
 print('mean(a)-mean(d) = ',delta)
 
 
@@ -43,7 +44,7 @@ ef = (top_df[top_df['active']==1].shape[0]/pct) / (na/ntot)
 print(f'enrichment at {percent}% over {df.shape[0]} molecules : {ef} // exhaustiveness = 4')
 
 # Time versus smiles length 
-
+plt.figure()
 lens = np.array([len(s) for s in df['can']])
 sns.lineplot(x=lens, y=df['time'])
 plt.ylabel('Time per molecule (s),')

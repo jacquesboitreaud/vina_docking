@@ -14,7 +14,7 @@ import numpy as np
 import os 
 
 
-tar = 'aa2ar'
+tar = 'drd3'
 
 # If subsample, will select 100 random actives and 900 random decoys from DUDE.
 subsample = True 
@@ -55,10 +55,12 @@ df = pd.DataFrame.from_dict({'can':smiles, 'active':active, 'decoy':decoy})
 
 df['other']=0
 
-rand_actives=df[df['active']==1].sample(100)
-rand_decoys = df[df['decoy']==1].sample(900)
-
-df = pd.concat([rand_actives,rand_decoys])
-df=df.reset_index(drop=True)
-
+if(subsample): # Sample random actives and random decoys 
+    rand_actives=df[df['active']==1].sample(100)
+    rand_decoys = df[df['decoy']==1].sample(900)
+    
+    df = pd.concat([rand_actives,rand_decoys])
+    df=df.reset_index(drop=True)
+    
+# Save 
 df.to_csv(f'C:/Users/jacqu/Documents/GitHub/vina_docking/data/{tar}_dude.csv')
