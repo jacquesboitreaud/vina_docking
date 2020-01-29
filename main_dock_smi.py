@@ -69,7 +69,7 @@ def main(args):
         # RUN DOCKING 
         start=time()
         subprocess.run(['/home/mcb/users/jboitr/local/autodock_vina_1_1_2_linux_x86/bin/vina',
-                        '--config', f'/home/mcb/users/jboitr/vina_docking/data/conf_{args.target}.txt','--exhaustiveness', f'{args.ex}', 
+                        '--config', f'/home/mcb/users/jboitr/vina_docking/data/conf/conf_{args.target}.txt','--exhaustiveness', f'{args.ex}', 
                         '--log', 'tmp/log.txt'])
         end = time()
         print("Docking time :", end-start)

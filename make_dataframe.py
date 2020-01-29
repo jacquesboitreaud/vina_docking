@@ -14,7 +14,7 @@ import numpy as np
 import os 
 
 
-tar = 'drd3'
+tar = 'tgfr1'
 
 # If subsample, will select 100 random actives and 900 random decoys from DUDE.
 subsample = True 

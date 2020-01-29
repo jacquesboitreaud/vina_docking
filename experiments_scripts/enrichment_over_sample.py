@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-df = pd.read_csv('../data/scored/drd3_dude_scored_16.csv')
+df = pd.read_csv('../data/scored/aa2ar_dude_scored.csv')
 
 actives = df[df['active']==1]
 decoys = df[df['decoy']==1]
