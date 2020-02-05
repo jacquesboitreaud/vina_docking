@@ -16,6 +16,7 @@ File to run vina docking on a dataframe with smiles strings
 import sys
 import subprocess
 import os 
+import shutil
 import argparse
 from time import time
 import numpy as np
@@ -28,15 +29,18 @@ def cline():
     # Parses arguments and calls main function with these args
     parser = argparse.ArgumentParser()
     
-    parser.add_argument("-t", "--target", default='aa2ar', help="prefix of pdb receptor file. Located in data/receptors")
-    parser.add_argument("-df", "--dataframe", default='data/to_dock.csv', help="csv file with 'can' columns containing smiles")
-    parser.add_argument("-e", "--ex", default=4, help="exhaustiveness parameter for vina. Default to 4")
+    parser.add_argument("-t", "--target", default='aa2ar', help="prefix of pdb receptor file. PDB file should be in data/receptors")
+    parser.add_argument("-df", "--dataframe", default='to_dock', help="csv file with 'can' columns containing smiles. Should be in ./data.ligands")
+    parser.add_argument("-e", "--ex", default=8, help="exhaustiveness parameter for vina. Default to 8")
     args = parser.parse_args()
     
     main(args)
     
 def main(args):
     # Runs the docking process with the args provided
+    
+    # Copy receptor file from the DUDE dir if first time using this target. 
+    shutil.copyfile(f'/home/mcb/users/jboitr/data/all/{args.target}.pdb',f'data/receptors/{args.target}.pdb')
     
     receptor_filepath = f'data/receptors/{args.target}.pdb'
     
@@ -46,7 +50,7 @@ def main(args):
                     f'-r /home/mcb/users/jboitr/vina_docking/{receptor_filepath}','-o tmp/receptor.pdbqt', '-A hydrogens'])
     
     # Iterate on molecules
-    mols_df = pd.read_csv(args.dataframe)
+    mols_df = pd.read_csv(f'data/ligands/{args.dataframe}.csv')
     mols_df['score'], mols_df['time'] = 0, 0
     mols_list = mols_df['can']
     print(f'Docking {len(mols_list)} molecules')
@@ -78,6 +82,8 @@ def main(args):
         with open('tmp/ligand_out.pdbqt','r') as f :
             lines = f.readlines()
             sline = lines[1]
+            print(lines[2])
+            print(lines[3])
             values = sline.split()
             sc=float(values[3])
             
@@ -86,11 +92,11 @@ def main(args):
         mols_df.loc[i,'time']=end-start
         
         if(i%100==0): # checkpoint , save dataframe 
-            mols_df.to_csv(args.dataframe[:-4]+'_scored.csv')
+            mols_df.to_csv(f'data/scored/{args.dataframe}_scored.csv')
             
     #final save 
     print('Docking finished, saving to csv')        
-    mols_df.to_csv(args.dataframe[:-4]+'_scored.csv')
+    mols_df.to_csv(f'data/scored/{args.dataframe}_scored.csv')
     
 if(__name__=='__main__'):
     cline()

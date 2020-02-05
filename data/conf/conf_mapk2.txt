@@ -1,0 +1,12 @@
+receptor = tmp/receptor.pdbqt
+ligand = tmp/ligand.pdbqt
+
+center_x = 40.278
+center_y = 5.625
+center_z = 17.472
+
+size_x = 34.093
+size_y = 38.260
+size_z = 42.921
+
+num_modes = 3

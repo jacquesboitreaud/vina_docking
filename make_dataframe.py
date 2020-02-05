@@ -13,18 +13,19 @@ import numpy as np
 
 import os 
 
-
-tar = 'tgfr1'
+tars = [ 'braf', 'csf1r','ddp4', 'dyr',\
+        'grik1','hdac8','jak2','lck','lkha4','mapk2','met','mk10','plk1',\
+        'pnph','urok','wee1']
 
 # If subsample, will select 100 random actives and 900 random decoys from DUDE.
 subsample = True 
 
-dud_repo = 'C:/Users/jacqu/Documents/mol2_resource/dud/all'
+dud_repo = 'C:/Users/jacqu/Documents/mol2_resource/dude/all'
 os.chdir(dud_repo)
 
 
 for target_folder in os.listdir(dud_repo):
-    if(target_folder==tar):
+    if(target_folder in tars):
         smiles, active, decoy = [], [], []
         
         with open(f'{target_folder}/actives_final.ism', 'r') as f : 
@@ -51,16 +52,16 @@ for target_folder in os.listdir(dud_repo):
                     decoy.append(1)
    
          
-df = pd.DataFrame.from_dict({'can':smiles, 'active':active, 'decoy':decoy})
-
-df['other']=0
-
-if(subsample): # Sample random actives and random decoys 
-    rand_actives=df[df['active']==1].sample(100)
-    rand_decoys = df[df['decoy']==1].sample(900)
-    
-    df = pd.concat([rand_actives,rand_decoys])
-    df=df.reset_index(drop=True)
-    
-# Save 
-df.to_csv(f'C:/Users/jacqu/Documents/GitHub/vina_docking/data/{tar}_dude.csv')
+        df = pd.DataFrame.from_dict({'can':smiles, 'active':active, 'decoy':decoy})
+        
+        df['other']=0
+        
+        if(subsample): # Sample random actives and random decoys 
+            rand_actives=df[df['active']==1].sample(100)
+            rand_decoys = df[df['decoy']==1].sample(900)
+            
+            df = pd.concat([rand_actives,rand_decoys])
+            df=df.reset_index(drop=True)
+            
+        # Save 
+        df.to_csv(f'C:/Users/jacqu/Documents/GitHub/vina_docking/data/ligands/{target_folder}_dude.csv')

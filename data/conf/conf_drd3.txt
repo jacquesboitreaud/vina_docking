@@ -1,12 +1,12 @@
 receptor = tmp/receptor.pdbqt
 ligand = tmp/ligand.pdbqt
 
-center_x =  10.19
-center_y =  22.9
-center_z = 23.88
+center_x = 10.192
+center_y = 22.963
+center_z = 23.884
 
-size_x = 36.9
-size_y = 39.9
-size_z = 38.5
+size_x = 36.975
+size_y = 39.940
+size_z = 38.529
 
-num_modes = 1
+num_modes = 3
