@@ -81,7 +81,7 @@ def main(args):
         #reading output tmp/ligand_out.pdbqt
         with open('tmp/ligand_out.pdbqt','r') as f :
             lines = f.readlines()
-            sline = [l for l in lines if l.startswith('REMARK VINA RESULT')
+            sline = [l for l in lines if l.startswith('REMARK VINA RESULT')]
             print(sline)
             values = sline.split()
             sc=float(values[3])
