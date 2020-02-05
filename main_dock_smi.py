@@ -82,9 +82,10 @@ def main(args):
         with open('tmp/ligand_out.pdbqt','r') as f :
             lines = f.readlines()
             slines = [l for l in lines if l.startswith('REMARK VINA RESULT')]
-            print(f'{len(slines)} poses found' )
+            #print(f'{len(slines)} poses found' )
             values = [l.split() for l in slines]
-            mean_sc=np.mean([float(v[3]) for v in values])
+            # In each split string, item with index 3 should be the kcal/mol energy. 
+            mean_sc=np.mean([float(v[3]) for v in values]) 
             
         # Add to dataframe 
         mols_df.loc[i,'score']=mean_sc
