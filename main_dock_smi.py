@@ -72,19 +72,17 @@ def main(args):
         
         # RUN DOCKING 
         start=time()
-        with open("tmp/docking.out", "w") as docking_out:
-            subprocess.run(['/home/mcb/users/jboitr/local/autodock_vina_1_1_2_linux_x86/bin/vina',
-                        '--config', f'/home/mcb/users/jboitr/vina_docking/data/conf/conf_{args.target}.txt','--exhaustiveness', f'{args.ex}', 
-                        '--log', 'tmp/log.txt'], stdout= docking_out)
+        subprocess.run(['/home/mcb/users/jboitr/local/autodock_vina_1_1_2_linux_x86/bin/vina',
+                    '--config', f'/home/mcb/users/jboitr/vina_docking/data/conf/conf_{args.target}.txt','--exhaustiveness', f'{args.ex}', 
+                    '--log', 'tmp/log.txt'])
         end = time()
         print("Docking time :", end-start)
         
         #reading output tmp/ligand_out.pdbqt
         with open('tmp/ligand_out.pdbqt','r') as f :
             lines = f.readlines()
-            sline = lines[1]
-            print(lines[2])
-            print(lines[3])
+            sline = [l for l in lines if l.startswith('REMARK VINA RESULT')
+            print(sline)
             values = sline.split()
             sc=float(values[3])
             
