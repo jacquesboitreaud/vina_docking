@@ -81,13 +81,13 @@ def main(args):
         #reading output tmp/ligand_out.pdbqt
         with open('tmp/ligand_out.pdbqt','r') as f :
             lines = f.readlines()
-            sline = [l for l in lines if l.startswith('REMARK VINA RESULT')]
-            print(sline)
-            values = sline.split()
-            sc=float(values[3])
+            slines = [l for l in lines if l.startswith('REMARK VINA RESULT')]
+            print(f'{len(slines)} poses found' )
+            values = [l.split() for l in slines]
+            mean_sc=np.mean([float(v[3]) for v in values])
             
         # Add to dataframe 
-        mols_df.loc[i,'score']=sc
+        mols_df.loc[i,'score']=mean_sc
         mols_df.loc[i,'time']=end-start
         
         if(i%100==0): # checkpoint , save dataframe 
