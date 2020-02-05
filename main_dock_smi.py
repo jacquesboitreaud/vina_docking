@@ -40,7 +40,7 @@ def main(args):
     # Runs the docking process with the args provided
     
     # Copy receptor file from the DUDE dir if first time using this target. 
-    shutil.copyfile(f'/home/mcb/users/jboitr/data/all/{args.target}.pdb',f'data/receptors/{args.target}.pdb')
+    shutil.copyfile(f'/home/mcb/users/jboitr/data/all/{args.target}/receptor.pdb',f'data/receptors/{args.target}.pdb')
     
     receptor_filepath = f'data/receptors/{args.target}.pdb'
     
