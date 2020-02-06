@@ -1,5 +1,6 @@
 data/tmp
 __pycache__
 data/heavy
-data/scored
+data/receptors
+data/conf
 tmp

@@ -15,10 +15,11 @@
 WARNING: The search space volume > 27000 Angstrom^3 (See FAQ)
 Output will be tmp/ligand_out.pdbqt
 Detected 24 CPUs
+WARNING: at low exhaustiveness, it may be impossible to utilize all CPUs
 Reading input ... done.
 Setting up the scoring function ... done.
 Analyzing the binding site ... done.
-Using random seed: -197524052
+Using random seed: 1808457128
 Performing search ... done.
 Refining results ... done.
 
@@ -26,4 +27,6 @@ mode |   affinity | dist from best mode
      | (kcal/mol) | rmsd l.b.| rmsd u.b.
 -----+------------+----------+----------
    1         -9.4      0.000      0.000
+   2         -9.4      0.528      1.472
+   3         -9.4      3.188     10.595
 Writing output ... done.
