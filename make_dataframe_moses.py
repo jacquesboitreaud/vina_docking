@@ -21,5 +21,8 @@ dftest = pd.read_csv('../graph2smiles/data/moses_test.csv')
 rd = df.sample(50000)
 rd = pd.concat([rd,dftest.sample(10000)])
 
+rd=rd.reset_index()
+rd=rd.rename(columns={"index": "true_index"})
+
 # Save 
 rd.to_csv(f'C:/Users/jacqu/Documents/GitHub/vina_docking/data/ligands/moses_sample.csv')
