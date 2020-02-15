@@ -42,7 +42,7 @@ def main(args):
     # Runs the docking process with the args provided
     
     home_dir='/home/jboitr/projects/def-jeromew/jboitr'
-    install_dir = '/home/jboitr/projects/def-jeromew/docking_install'
+    install_dir = '/home/jboitr/projects/def-jeromew/docking_setup'
     
     # Uncomment to Copy receptor file from the DUDE dir if first time using this target. 
     #shutil.copyfile(f'/home/mcb/users/jboitr/data/all/{args.target}/receptor.pdb',f'data/receptors/{args.target}.pdb')
