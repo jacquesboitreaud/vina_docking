@@ -1,5 +1,5 @@
 ,Unnamed: 0,can,active,decoy,other,score,time
-0,0,Nc3nc(c1ccccc1)c(C#N)c(c2ccccc2)n3,1,0,0,-9.433333333333334,9.18712306022644
-1,1,Nc3nc(c1cccnc1)cc4nc(c2ccco2)nn34,1,0,0,-8.5,9.07794713973999
-2,2,Nc3nc(C(=O)NCc1ccccc1)cn4nc(c2ccco2)nc34,1,0,0,-8.833333333333334,12.812773704528809
-3,3,CN(C[C@H]1CCCCN1Cc2cc(C)on2)c5nc(N)n4nc(c3ccco3)nc4n5,1,0,0,-8.9,19.91190266609192
+0,0,Nc3nc(c1ccccc1)c(C#N)c(c2ccccc2)n3,1,0,0,-7.733333333333333,44.610597133636475
+1,1,Nc3nc(c1cccnc1)cc4nc(c2ccco2)nn34,1,0,0,0.0,0.0
+2,2,Nc3nc(C(=O)NCc1ccccc1)cn4nc(c2ccco2)nc34,1,0,0,0.0,0.0
+3,3,CN(C[C@H]1CCCCN1Cc2cc(C)on2)c5nc(N)n4nc(c3ccco3)nc4n5,1,0,0,0.0,0.0
