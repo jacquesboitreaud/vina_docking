@@ -79,7 +79,7 @@ def main(args):
         
         # ligand mol2 to pdbqt 
         subprocess.run([f'{install_dir}/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_ligand4.py',
-                        f'-l tmp/ligand.mol2', '-o tmp/ligand.pdbqt', '-A hydrogens'])
+                        f'-l tmp/ligand.mol2', f'-o tmp/ligand_{i}.pdbqt', '-A hydrogens'])
         
         # RUN DOCKING 
         start=time()
