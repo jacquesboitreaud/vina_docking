@@ -44,7 +44,7 @@ def main(args):
     
     
     if(args.server=='rup'):
-        home_dir='/home/mcb/users/jboitr/local'
+        home_dir='/home/mcb/users/jboitr'
         install_dir = '/home/mcb/users/jboitr/local'
     elif(args.server=='cedar'):
         home_dir='/home/jboitr/projects/def-jeromew/jboitr'
