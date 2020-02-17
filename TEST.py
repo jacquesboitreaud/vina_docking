@@ -10,8 +10,6 @@ File to run vina docking on a dataframe with smiles strings
     Path to receptor PDB file 
     exhaustiveness 
     Suffix for scores file output 
-    
-(Paths for compute canada server and rupert) 
 
 """
 
