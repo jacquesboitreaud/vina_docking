@@ -79,13 +79,13 @@ def main(args):
         
         # ligand mol2 to pdbqt 
         subprocess.run([f'{install_dir}/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_ligand4.py',
-                        f'-l tmp/ligand.mol2', f'-o tmp/ligand_{i}.pdbqt', '-A hydrogens'])
+                        f'-l tmp/ligand.mol2', f'-o tmp/ligand.pdbqt', '-A hydrogens'])
         
         # RUN DOCKING 
         start=time()
         subprocess.run([f'{install_dir}/autodock_vina_1_1_2_linux_x86/bin/vina',
                     '--config', f'{home_dir}/vina_docking/data/conf/conf_{args.target}.txt','--exhaustiveness', f'{args.ex}', 
-                    '--log', f'tmp/log_{i}.txt'])
+                    '--log', f'tmp/log.txt'])
         end = time()
         print("Docking time :", end-start)
         
