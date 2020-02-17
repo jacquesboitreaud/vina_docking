@@ -102,8 +102,7 @@ def main(args):
         mols_df.loc[i,'score']=mean_sc
         mols_df.loc[i,'time']=end-start
         
-        if(i%100==0): # checkpoint , save dataframe 
-            mols_df.to_csv(f'data/scored/{args.dataframe}_scored.csv')
+        mols_df.to_csv(f'data/TEST_scored.csv')
             
     #final save 
     print('Docking finished, saving to csv')        
