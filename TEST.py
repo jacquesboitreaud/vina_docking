@@ -85,7 +85,7 @@ def main(args):
         start=time()
         subprocess.run([f'{install_dir}/autodock_vina_1_1_2_linux_x86/bin/vina',
                     '--config', f'{home_dir}/vina_docking/data/conf/conf_{args.target}.txt','--exhaustiveness', f'{args.ex}', 
-                    '--log', 'tmp/log.txt'])
+                    '--log', f'tmp/log_{i}.txt'])
         end = time()
         print("Docking time :", end-start)
         
