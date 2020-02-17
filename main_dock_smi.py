@@ -89,20 +89,24 @@ def main(args):
                     '--config', f'{home_dir}/vina_docking/data/conf/conf_{args.target}.txt','--exhaustiveness', f'{args.ex}', 
                     '--log', 'tmp/log.txt'])
         end = time()
-        print("Docking time :", end-start)
+        delta_t=end-start
+        print("Docking time :", delta_t)
         
-        #reading output tmp/ligand_out.pdbqt
-        with open('tmp/ligand_out.pdbqt','r') as f :
-            lines = f.readlines()
-            slines = [l for l in lines if l.startswith('REMARK VINA RESULT')]
-            #print(f'{len(slines)} poses found' )
-            values = [l.split() for l in slines]
-            # In each split string, item with index 3 should be the kcal/mol energy. 
-            mean_sc=np.mean([float(v[3]) for v in values]) 
+        if(delta_t>1): # Condition to check the molecule was docked 
+            #reading output tmp/ligand_out.pdbqt
+            with open('tmp/ligand_out.pdbqt','r') as f :
+                lines = f.readlines()
+                slines = [l for l in lines if l.startswith('REMARK VINA RESULT')]
+                #print(f'{len(slines)} poses found' )
+                values = [l.split() for l in slines]
+                # In each split string, item with index 3 should be the kcal/mol energy. 
+                mean_sc=np.mean([float(v[3]) for v in values]) 
+        else:
+            mean_sc=0
             
         # Add to dataframe 
         mols_df.loc[i,'score']=mean_sc
-        mols_df.loc[i,'time']=end-start
+        mols_df.loc[i,'time']=delta_t
         
         if(i%100==0): # checkpoint , save dataframe 
             mols_df.to_csv(f'data/scored/{args.dataframe}_scored.csv')

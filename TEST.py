@@ -87,10 +87,10 @@ def main(args):
                     '--config', f'{home_dir}/vina_docking/data/conf/conf_{args.target}.txt','--exhaustiveness', f'{args.ex}', 
                     '--log', f'tmp/log.txt'])
         end = time()
-        time = end-start
-        print("Docking time :", time)
+        dt = end-start
+        print("Docking time :", dt)
         
-        if(time>1): # Condition to check the molecule was docked 
+        if(dt>1): # Condition to check the molecule was docked 
             #reading output tmp/ligand_out.pdbqt
             with open('tmp/ligand_out.pdbqt','r') as f :
                 lines = f.readlines()
@@ -104,7 +104,7 @@ def main(args):
             
         # Add to dataframe 
         mols_df.loc[i,'score']=mean_sc
-        mols_df.loc[i,'time']=time
+        mols_df.loc[i,'time']=dt
         
         mols_df.to_csv(f'data/TEST_scored.csv')
             
