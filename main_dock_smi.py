@@ -33,6 +33,7 @@ def cline():
     
     parser.add_argument("-t", "--target", default='aa2ar', help="prefix of pdb receptor file. PDB file should be in data/receptors")
     parser.add_argument("-df", "--dataframe", default='to_dock', help="csv file with 'can' columns containing smiles. Should be in ./data.ligands")
+    parser.add_argument("-s", "--server", default='rup', help="Server to run the docking on, for path and configs.")
     parser.add_argument("-e", "--ex", default=8, help="exhaustiveness parameter for vina. Default to 8")
     args = parser.parse_args()
     
@@ -41,8 +42,15 @@ def cline():
 def main(args):
     # Runs the docking process with the args provided
     
-    home_dir='/home/jboitr/projects/def-jeromew/jboitr'
-    install_dir = '/home/jboitr/projects/def-jeromew/docking_setup'
+    
+    if(args.server=='rup'):
+        home_dir='/home/mcb/users/jboitr/local'
+        install_dir = '/home/mcb/users/jboitr/local'
+    elif(args.server=='cedar'):
+        home_dir='/home/jboitr/projects/def-jeromew/jboitr'
+        install_dir = '/home/jboitr/projects/def-jeromew/docking_setup'
+    else:
+        print('Error: no install of vina/mgltools found for this server.')
     
     # Uncomment to Copy receptor file from the DUDE dir if first time using this target. 
     #shutil.copyfile(f'/home/mcb/users/jboitr/data/all/{args.target}/receptor.pdb',f'data/receptors/{args.target}.pdb')

@@ -13,12 +13,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-df = pd.read_csv('../data/scored/moses_sample_scored.csv')
+df = pd.read_csv('../../rupert_scored.csv')
 df=df[df['score']<0]
 
 # Enrichment and separate distributions 
 plt.figure()
-sns.distplot(df['score'], label = 'random sample', bins=20, norm_hist=False)
+plt.xlim(-12,-4)
+sns.distplot(df['score'], label = 'random sample', bins=20, norm_hist=False, color = 'green')
 plt.xlabel('Energy (kcal/mol)')
 plt.legend()
 plt.title(f'Distributions for {df.shape[0]} molecules')
