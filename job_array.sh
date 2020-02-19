@@ -4,5 +4,4 @@
 #SBATCH --time=24:00:00
 #SBATCH --job-name=v_screen
 #SBATCH --output=%x_$SLURM_ARRAY_TASK_ID.out
-echo 'start testing vina on drd3'
-python3 main_dock_smi.py -t drd3 -df mol_batch_$SLURM_ARRAY_TASK_ID
+python3 dock_smi.py -t drd3 -df data/split/mol_batch_$SLURM_ARRAY_TASK_ID.csv -o data/scored/scored_$SLURM_ARRAY_TASK_ID.csv
