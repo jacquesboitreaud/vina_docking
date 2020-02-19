@@ -10,6 +10,8 @@ File to run vina docking on a dataframe with smiles strings
     Path to receptor PDB file 
     exhaustiveness 
     Suffix for scores file output 
+    
+(Paths for compute canada server and rupert) 
 
 """
 
@@ -32,7 +34,7 @@ def cline():
     parser.add_argument("-t", "--target", default='aa2ar', help="prefix of pdb receptor file. PDB file should be in data/receptors")
     parser.add_argument("-df", "--dataframe", default='to_dock', help="csv file with 'can' columns containing smiles. Should be in ./data.ligands")
     parser.add_argument("-s", "--server", default='rup', help="Server to run the docking on, for path and configs.")
-    parser.add_argument("-e", "--ex", default=8, help="exhaustiveness parameter for vina. Default to 8")
+    parser.add_argument("-e", "--ex", default=16, help="exhaustiveness parameter for vina. Default to 8")
     args = parser.parse_args()
     
     main(args)
@@ -79,18 +81,18 @@ def main(args):
         
         # ligand mol2 to pdbqt 
         subprocess.run([f'{install_dir}/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_ligand4.py',
-                        f'-l tmp/ligand.mol2', f'-o tmp/ligand.pdbqt', '-A hydrogens'])
+                        f'-l tmp/ligand.mol2', '-o tmp/ligand.pdbqt', '-A hydrogens'])
         
         # RUN DOCKING 
         start=time()
         subprocess.run([f'{install_dir}/autodock_vina_1_1_2_linux_x86/bin/vina',
                     '--config', f'{home_dir}/vina_docking/data/conf/conf_{args.target}.txt','--exhaustiveness', f'{args.ex}', 
-                    '--log', f'tmp/log.txt'])
+                    '--log', 'tmp/log.txt'])
         end = time()
-        dt = end-start
-        print("Docking time :", dt)
+        delta_t=end-start
+        print("Docking time :", delta_t)
         
-        if(dt>1): # Condition to check the molecule was docked 
+        if(delta_t>1): # Condition to check the molecule was docked 
             #reading output tmp/ligand_out.pdbqt
             with open('tmp/ligand_out.pdbqt','r') as f :
                 lines = f.readlines()
@@ -99,14 +101,15 @@ def main(args):
                 values = [l.split() for l in slines]
                 # In each split string, item with index 3 should be the kcal/mol energy. 
                 mean_sc=np.mean([float(v[3]) for v in values]) 
-        else: # DOCKING FAILED, score 0 
-            mean_sc = 0
+        else:
+            mean_sc=0
             
         # Add to dataframe 
-        mols_df.loc[i,'score']=mean_sc
-        mols_df.loc[i,'time']=dt
+        mols_df.at[i,'score']=mean_sc
+        mols_df.at[i,'time']=delta_t
         
-        mols_df.to_csv(f'data/TEST_scored.csv')
+        if(i%100==0): # checkpoint , save dataframe 
+            mols_df.to_csv(f'data/scored/{args.dataframe}_scored.csv')
             
     #final save 
     print('Docking finished, saving to csv')        
