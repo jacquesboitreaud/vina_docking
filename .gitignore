@@ -3,4 +3,6 @@ __pycache__
 data/heavy
 data/receptors
 data/conf
+data/scored_exp
+data/split
 tmp

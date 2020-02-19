@@ -32,7 +32,10 @@ def cline():
     parser = argparse.ArgumentParser()
     
     parser.add_argument("-t", "--target", default='aa2ar', help="prefix of pdb receptor file. PDB file should be in data/receptors")
-    parser.add_argument("-df", "--dataframe", default='to_dock', help="csv file with 'can' columns containing smiles. Should be in ./data.ligands")
+    parser.add_argument("-df", "--dataframe_path", default='data/ligands/my_ligands.csv', 
+                        help="Path to csv file with 'can' columns containing smiles")
+    parser.add_argument("-o", "--out_dataframe_path", default='data/scored/my_ligands_scored.csv', 
+                        help="Path to csv file for saving scores")
     parser.add_argument("-s", "--server", default='rup', help="Server to run the docking on, for path and configs.")
     parser.add_argument("-e", "--ex", default=16, help="exhaustiveness parameter for vina. Default to 8")
     args = parser.parse_args()
@@ -63,7 +66,7 @@ def main(args):
                     f'-r {home_dir}/vina_docking/{receptor_filepath}','-o tmp/receptor.pdbqt', '-A hydrogens'])
     
     # Iterate on molecules
-    mols_df = pd.read_csv(f'data/ligands/{args.dataframe}.csv')
+    mols_df = pd.read_csv(args.dataframe_path)
     mols_df['score'], mols_df['time'] = 0, 0
     mols_list = mols_df['can']
     print(f'Docking {len(mols_list)} molecules')
@@ -109,11 +112,11 @@ def main(args):
         mols_df.at[i,'time']=delta_t
         
         if(i%100==0): # checkpoint , save dataframe 
-            mols_df.to_csv(f'data/scored/{args.dataframe}_scored.csv')
+            mols_df.to_csv(args.out_dataframe_path)
             
     #final save 
     print('Docking finished, saving to csv')        
-    mols_df.to_csv(f'data/scored/{args.dataframe}_scored.csv')
+    mols_df.to_csv(args.out_dataframe_path)
     
 if(__name__=='__main__'):
     cline()

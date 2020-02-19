@@ -12,17 +12,29 @@ import numpy as np
 
 import os 
 
-df = pd.read_csv('../graph2smiles/data/moses_train.csv')
 
-dftest = pd.read_csv('../graph2smiles/data/moses_test.csv')
+done = pd.read_csv('C:/Users/jacqu/Documents/GitHub/vina_docking/data/ligands/moses_sample.csv')
+
+prev_docked=set(done['can'])
+print(len(prev_docked), 'molecules already docked')
+
+df = pd.read_csv('../graph2smiles/data/moses_train.csv')
 
 # Sampling 
 
-rd = df.sample(50000)
-rd = pd.concat([rd,dftest.sample(10000)])
+rd = df.sample(100000)
 
 rd=rd.reset_index()
 rd=rd.rename(columns={"index": "true_index"})
 
+todrop=[]
+for i, row in rd.iterrows():
+    if row['can'] in prev_docked:
+        todrop.append(i)
+        
+rd = rd.drop(todrop)
+rd=rd.reset_index(drop=True)
+
 # Save 
-rd.to_csv(f'C:/Users/jacqu/Documents/GitHub/vina_docking/data/ligands/moses_sample.csv')
+
+rd.to_csv('docking1.csv')
