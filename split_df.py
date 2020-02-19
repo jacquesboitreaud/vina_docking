@@ -11,6 +11,7 @@ Split dataframe into chunks for parallel docking using sbatch
 import pandas as pd 
 import numpy as np
 import os 
+import argparse
 
 def splitDataFrame(df, chunkSize): 
     listOfDf = list()
