@@ -67,7 +67,7 @@ def main(args):
     
     # Iterate on molecules
     mols_df = pd.read_csv(args.dataframe_path)
-    mols_df['score'], mols_df['time'] = pd.Series(dtype=np.float64), pd.Series(dtype=np.float64)
+    mols_df['score'], mols_df['time'] = 0, 0
     mols_list = mols_df['can']
     print(f'Docking {len(mols_list)} molecules')
     
