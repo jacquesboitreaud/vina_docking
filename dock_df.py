@@ -67,46 +67,56 @@ def main(args):
     
     # Iterate on molecules
     mols_df = pd.read_csv(args.dataframe_path)
-    mols_df['score'], mols_df['time'] = 0, 0
+    mols_df['score'], mols_df['time'] = pd.Series(dtype=np.float64), pd.Series(dtype=np.float64)
     mols_list = mols_df['can']
     print(f'Docking {len(mols_list)} molecules')
+
     
     for i,smi in enumerate(mols_list):
         # smiles to mol2 
+        SMILES_ERROR_FLAG=False
         with open('tmp/ligand.mol2', 'w') as f:
-            mol = pybel.readstring("smi", smi)
-            mol.addh()
-            mol.make3D()
+            try:
+                mol = pybel.readstring("smi", smi)
+                mol.addh()
+                mol.make3D()
+                
+                txt = mol.write('mol2')
+                f.write(txt)
+                f.close()
+                
+            except:
+                SMILES_ERROR_FLAG=True
+                mean_sc=0.0
+                delta_t=0.0
+        
+        if(not SMILES_ERROR_FLAG):
+            # ligand mol2 to pdbqt 
+            subprocess.run([f'{install_dir}/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_ligand4.py',
+                            f'-l tmp/ligand.mol2', '-o tmp/ligand.pdbqt', '-A hydrogens'])
             
-            txt = mol.write('mol2')
-            f.write(txt)
-            f.close()
-        
-        # ligand mol2 to pdbqt 
-        subprocess.run([f'{install_dir}/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_ligand4.py',
-                        f'-l tmp/ligand.mol2', '-o tmp/ligand.pdbqt', '-A hydrogens'])
-        
-        # RUN DOCKING 
-        start=time()
-        subprocess.run([f'{install_dir}/autodock_vina_1_1_2_linux_x86/bin/vina',
-                    '--config', f'{home_dir}/vina_docking/data/conf/conf_{args.target}.txt','--exhaustiveness', f'{args.ex}', 
-                    '--log', 'tmp/log.txt'])
-        end = time()
-        delta_t=end-start
-        print("Docking time :", delta_t)
-        
-        if(delta_t>1): # Condition to check the molecule was docked 
-            #reading output tmp/ligand_out.pdbqt
-            with open('tmp/ligand_out.pdbqt','r') as f :
-                lines = f.readlines()
-                slines = [l for l in lines if l.startswith('REMARK VINA RESULT')]
-                #print(f'{len(slines)} poses found' )
-                values = [l.split() for l in slines]
-                # In each split string, item with index 3 should be the kcal/mol energy. 
-                mean_sc=np.mean([float(v[3]) for v in values]) 
-        else:
-            mean_sc=0
+            # RUN DOCKING 
+            start=time()
+            subprocess.run([f'{install_dir}/autodock_vina_1_1_2_linux_x86/bin/vina',
+                        '--config', f'{home_dir}/vina_docking/data/conf/conf_{args.target}.txt','--exhaustiveness', f'{args.ex}', 
+                        '--log', 'tmp/log.txt'])
+            end = time()
+            delta_t=end-start
+            print("Docking time :", delta_t)
             
+            if(delta_t>1): # Condition to check the molecule was docked 
+                #reading output tmp/ligand_out.pdbqt
+                with open('tmp/ligand_out.pdbqt','r') as f :
+                    lines = f.readlines()
+                    slines = [l for l in lines if l.startswith('REMARK VINA RESULT')]
+                    #print(f'{len(slines)} poses found' )
+                    values = [l.split() for l in slines]
+                    # In each split string, item with index 3 should be the kcal/mol energy. 
+                    mean_sc=np.mean([float(v[3]) for v in values]) 
+            else:
+                mean_sc=0.0
+                
+                            
         # Add to dataframe 
         mols_df.at[i,'score']=mean_sc
         mols_df.at[i,'time']=delta_t
