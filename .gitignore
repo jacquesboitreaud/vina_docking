@@ -4,5 +4,6 @@ data/heavy
 data/receptors
 data/conf
 data/scored_exp
+data/scored_moses
 data/split
 tmp
