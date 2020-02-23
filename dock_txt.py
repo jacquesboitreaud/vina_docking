@@ -68,8 +68,8 @@ def main(args):
     # Iterate on molecules
     with open(args.input_path,'r') as f:
         lines = f.readlines()
-        mols_list = [l.split[1] for l in lines]
-        seed_list = [l.split[0] for l in lines]
+        mols_list = [l.split()[1] for l in lines]
+        seed_list = [l.split()[0] for l in lines]
         
     mols_df = pd.DataFrame.from_dict({'can':mols_list,'seed':seed_list})
     mols_df['score'], mols_df['time'] = pd.Series(dtype=np.float64), pd.Series(dtype=np.float64)
