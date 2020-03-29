@@ -4,14 +4,11 @@ Created on Sun Jan  5 21:19:35 2020
 
 @author: jacqu
 
-File to run vina docking on a dataframe with smiles strings
+File to run vina docking on a dataframe with smiles strings in 'can' column 
     
-    Directory with individual mol2 files 
-    Path to receptor PDB file 
-    exhaustiveness 
-    Suffix for scores file output 
-    
-(Paths for compute canada server and rupert) 
+(Paths are set for compute canada server and rupert. ) 
+
+TODO : adapt to more general setting 
 
 """
 
@@ -53,7 +50,7 @@ def main(args):
         home_dir='/home/jboitr/projects/def-jeromew/jboitr'
         install_dir = '/home/jboitr/projects/def-jeromew/docking_setup'
     else:
-        print('Error: no install of vina/mgltools found for this server.')
+        print('Error: "server" argument never used before. Set paths of vina/mgltools installs for this server.')
     
     # Uncomment to Copy receptor file from the DUDE dir if first time using this target. 
     #shutil.copyfile(f'/home/mcb/users/jboitr/data/all/{args.target}/receptor.pdb',f'data/receptors/{args.target}.pdb')

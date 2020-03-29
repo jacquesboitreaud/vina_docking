@@ -5,7 +5,9 @@ Created on Thu Jan 16 11:16:21 2020
 @author: jacqu
 
 
-Gather DUDE molecules in a dataframe with SMILES for docking
+Sample DUDE molecules in a dataframe with SMILES for docking. 
+N_a actives and N_d decoys for each target. 
+Path to DUDE download must be provided
 """
 
 import pandas as pd 

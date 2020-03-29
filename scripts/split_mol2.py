@@ -39,7 +39,5 @@ def main(args):
         print(f'Split {args.mol2} and wrote chunk files to {args.out_dir}')
     
     
-    
-
 if(__name__=='__main__'):
     cline()

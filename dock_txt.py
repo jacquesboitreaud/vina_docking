@@ -4,7 +4,7 @@ Created on Sun Jan  5 21:19:35 2020
 
 @author: jacqu
 
-File to run vina docking on a .txt file with smiles strings 
+Main script to run vina docking on molecules stored in .txt file  (1 smiles strings per line, ending \n)
     
     Directory with individual mol2 files 
     Path to receptor PDB file 
