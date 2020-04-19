@@ -18,7 +18,7 @@ import numpy as np
 import openbabel
 import pybel 
     
-def dock_batch(smiles, repo_path ='/home/mcb/users/jboitr', 
+def dock_batch(smiles, repo_path ='/home/mcb/users/jboitr/vina_docking', 
                install_dir='/home/mcb/users/jboitr/local'):
     # Args: 
     #'smiles' : a list of smiles strings 
@@ -32,12 +32,12 @@ def dock_batch(smiles, repo_path ='/home/mcb/users/jboitr',
     # Uncomment to Copy receptor file from the DUDE dir if first time using this target. 
     #shutil.copyfile(f'/home/mcb/users/jboitr/data/all/{args.target}/receptor.pdb',f'data/receptors/{args.target}.pdb')
     
-    receptor_filepath = f'{repo_path}/data/receptors/{target}.pdb'
+    receptor_filepath = f'data/receptors/{target}.pdb' # path to receptor from the repository root 
     
     # target to pdbqt 
     subprocess.run(['python3',f'{repo_path}/pdb_select.py',f'{receptor_filepath}','! hydro', f'{receptor_filepath}'])
     subprocess.run([f'{install_dir}/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', f'{repo_path}/prepare_receptor4.py',
-                    f'-r {repo_path}/vina_docking/{receptor_filepath}',f'-o {repo_path}/tmp/receptor.pdbqt', '-A hydrogens'])
+                    f'-r {repo_path}/{receptor_filepath}',f'-o {repo_path}/tmp/receptor.pdbqt', '-A hydrogens'])
     
     # Iterate on molecules
     mols_list = smiles
