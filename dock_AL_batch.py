@@ -34,6 +34,9 @@ def dock_batch(smiles, repo_path ='/home/mcb/users/jboitr/vina_docking',
     
     receptor_filepath = f'{repo_path}/data/receptors/{target}.pdb' # path to receptor pdb file
     
+    working_dir = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(repo_path)
+    
     # target to pdbqt 
     subprocess.run(['python3',f'{repo_path}/pdb_select.py',f'{receptor_filepath}','! hydro', f'{receptor_filepath}'])
     subprocess.run([f'{install_dir}/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', f'{repo_path}/prepare_receptor4.py',
@@ -95,5 +98,7 @@ def dock_batch(smiles, repo_path ='/home/mcb/users/jboitr/vina_docking',
         # Add to dataframe 
         scores_list.append(mean_sc)
         times_list.append(delta_t)
+        
+        os.chdir(working_dir) # set back to working directory 
 
     return scores_list
