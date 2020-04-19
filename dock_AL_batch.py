@@ -34,7 +34,7 @@ def dock_batch(smiles, repo_path ='/home/mcb/users/jboitr/vina_docking',
     
     receptor_filepath = f'{repo_path}/data/receptors/{target}.pdb' # path to receptor pdb file
     
-    working_dir = os.path.dirname(os.path.realpath(__file__))
+    working_dir = os.getcwd()
     os.chdir(repo_path)
     
     # target to pdbqt 
