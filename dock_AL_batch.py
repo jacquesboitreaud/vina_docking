@@ -18,7 +18,8 @@ import numpy as np
 import openbabel
 import pybel 
     
-def dock_batch(smiles, install_dir='/home/mcb/users/jboitr/local'):
+def dock_batch(smiles, home_dir ='/home/mcb/users/jboitr', 
+               install_dir='/home/mcb/users/jboitr/local'):
     # Args: 
     #'smiles' : a list of smiles strings 
     # install_dir : Dir with vina/mgltools installs
@@ -27,8 +28,6 @@ def dock_batch(smiles, install_dir='/home/mcb/users/jboitr/local'):
     
     target = 'drd3'
     exhaustiveness = 32
-    
-    home_dir='/home/mcb/users/jboitr'
     
     # Uncomment to Copy receptor file from the DUDE dir if first time using this target. 
     #shutil.copyfile(f'/home/mcb/users/jboitr/data/all/{args.target}/receptor.pdb',f'data/receptors/{args.target}.pdb')
