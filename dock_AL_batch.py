@@ -18,12 +18,12 @@ import numpy as np
 import openbabel
 import pybel 
     
-def dock_batch(smiles, home_dir ='/home/mcb/users/jboitr', 
+def dock_batch(smiles, repo_path ='/home/mcb/users/jboitr', 
                install_dir='/home/mcb/users/jboitr/local'):
     # Args: 
     #'smiles' : a list of smiles strings 
     # install_dir : Dir with vina/mgltools installs
-    # home_dir : Home directory in which 'vina_docking' repo is cloned. Used so that we use no relative path at all,
+    # repo_path : Path to 'vina_docking' repo from root. Used so that we use no relative path at all,
     # to avoid confusion. 
     
     target = 'drd3'
@@ -32,12 +32,12 @@ def dock_batch(smiles, home_dir ='/home/mcb/users/jboitr',
     # Uncomment to Copy receptor file from the DUDE dir if first time using this target. 
     #shutil.copyfile(f'/home/mcb/users/jboitr/data/all/{args.target}/receptor.pdb',f'data/receptors/{args.target}.pdb')
     
-    receptor_filepath = f'data/receptors/{target}.pdb'
+    receptor_filepath = f'{repo_path}/data/receptors/{target}.pdb'
     
     # target to pdbqt 
-    subprocess.run(['python3','pdb_select.py',f'{receptor_filepath}','! hydro', f'{receptor_filepath}'])
-    subprocess.run([f'{install_dir}/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_receptor4.py',
-                    f'-r {home_dir}/vina_docking/{receptor_filepath}','-o tmp/receptor.pdbqt', '-A hydrogens'])
+    subprocess.run(['python3',f'{repo_path}/pdb_select.py',f'{receptor_filepath}','! hydro', f'{receptor_filepath}'])
+    subprocess.run([f'{install_dir}/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', f'{repo_path}/prepare_receptor4.py',
+                    f'-r {repo_path}/vina_docking/{receptor_filepath}',f'-o {repo_path}/tmp/receptor.pdbqt', '-A hydrogens'])
     
     # Iterate on molecules
     mols_list = smiles
@@ -49,7 +49,7 @@ def dock_batch(smiles, home_dir ='/home/mcb/users/jboitr',
     for i,smi in enumerate(mols_list):
         # smiles to mol2 
         SMILES_ERROR_FLAG=False
-        with open('tmp/ligand.mol2', 'w') as f:
+        with open(f'{repo_path}/tmp/ligand.mol2', 'w') as f:
             try:
                 mol = pybel.readstring("smi", smi)
                 mol.addh()
@@ -66,21 +66,21 @@ def dock_batch(smiles, home_dir ='/home/mcb/users/jboitr',
         
         if(not SMILES_ERROR_FLAG):
             # ligand mol2 to pdbqt 
-            subprocess.run([f'{install_dir}/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', 'prepare_ligand4.py',
-                            f'-l tmp/ligand.mol2', '-o tmp/ligand.pdbqt', '-A hydrogens'])
+            subprocess.run([f'{install_dir}/mgltools_x86_64Linux2_1.5.6/bin/pythonsh', f'{repo_path}/prepare_ligand4.py',
+                            f'-l {repo_path}/tmp/ligand.mol2', f'-o {repo_path}/tmp/ligand.pdbqt', '-A hydrogens'])
             
             # RUN DOCKING 
             start=time()
             subprocess.run([f'{install_dir}/autodock_vina_1_1_2_linux_x86/bin/vina',
-                        '--config', f'{home_dir}/vina_docking/data/conf/conf_{target}.txt','--exhaustiveness', f'{exhaustiveness}', 
-                        '--log', 'tmp/log.txt'])
+                        '--config', f'{repo_path}/data/conf/conf_{target}.txt','--exhaustiveness', f'{exhaustiveness}', 
+                        '--log', f'{repo_path}/tmp/log.txt'])
             end = time()
             delta_t=end-start
             print("Docking time :", delta_t)
             
             if(delta_t>1): # Condition to check the molecule was docked 
                 #reading output tmp/ligand_out.pdbqt
-                with open('tmp/ligand_out.pdbqt','r') as f :
+                with open(f'{repo_path}/tmp/ligand_out.pdbqt','r') as f :
                     lines = f.readlines()
                     slines = [l for l in lines if l.startswith('REMARK VINA RESULT')]
                     #print(f'{len(slines)} poses found' )
