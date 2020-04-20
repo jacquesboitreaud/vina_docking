@@ -101,4 +101,4 @@ def dock_batch(smiles, repo_path ='/home/mcb/users/jboitr/vina_docking',
         
         os.chdir(working_dir) # set back to working directory 
 
-    return scores_list
+    return scores_list, times_list
